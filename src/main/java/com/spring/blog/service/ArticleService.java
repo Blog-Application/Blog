@@ -23,8 +23,8 @@ public class ArticleService {
 
     @Transactional
     public List<ArticleDto> showAllArticles() {
-        List<Article> posts = articleRepository.findAll();
-        return posts.stream().map(this::mapFromArticleToDto).collect(toList());
+        List<Article> articles= articleRepository.findAll();
+        return articles.stream().map(this::mapFromArticleToDto).collect(toList());
     }
 
     @Transactional
@@ -43,8 +43,8 @@ public class ArticleService {
         Article article = new Article();
         article.setTitle(articleDto.getTitle());
         User loggedInUser = authService.getCurrentUser().orElseThrow(() -> new IllegalArgumentException("User Not Found"));
-        article.setText(articleDto.getText());
-        article.setPublisher(loggedInUser.getUsername());
+        article.setContent(articleDto.getContent());
+        article.setUsername(loggedInUser.getUsername());
         return article;
     }
 
@@ -52,8 +52,8 @@ public class ArticleService {
         ArticleDto articleDto = new ArticleDto();
         articleDto.setID(article.getID());
         articleDto.setTitle(article.getTitle());
-        articleDto.setText(article.getText());
-        articleDto.setUsername(article.getPublisher());
+        articleDto.setContent(article.getContent());
+        articleDto.setUsername(article.getUsername());
         return articleDto;
     }
 

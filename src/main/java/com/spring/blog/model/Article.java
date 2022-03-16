@@ -4,10 +4,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 
 @Getter
@@ -17,20 +15,23 @@ import java.util.Date;
 public class Article {
 
     @Id
-    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long ID;
 
+    @Lob
     @Column
     private String title;
 
     @Column
-    private Date publishDate;
+    private String content;
 
     @Column
-    private String text;
+    private Instant createdOn;
 
     @Column
-    private String publisher;
+    private Instant updatedOn;
 
-
+    @Column
+    private String username;
 }
+

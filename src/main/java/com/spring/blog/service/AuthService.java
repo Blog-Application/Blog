@@ -35,11 +35,16 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public String login(LoginRequest loginRequest) {
+    public AuthenticationResponse login(LoginRequest loginRequest){
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                 loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
-        return jwtProvider.generateToken(authenticate);
+        String authenticationToken = jwtProvider.generateToken(authenticate);
+        AuthenticationResponse authResponse = new AuthenticationResponse();
+        authResponse.setAuthenticationToken(authenticationToken);
+        authResponse.setUsername(loginRequest.getUsername());
+        System.out.println("*************"+authResponse.getAuthenticationToken() + " " + authResponse.getUsername());
+        return authResponse;
     }
 
     private String encodePassword(String pass){
